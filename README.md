@@ -1,2 +1,2 @@
-# manutd_goals_scored
+# Data Visualization
 Analysis of Manchester United's goal scoring problems
