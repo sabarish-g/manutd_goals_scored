@@ -1,6 +1,7 @@
 library(dplyr)
 library(ggplot2)
 
+#aggregrated file of goals scored per game every season
 create_avg_file <- function(file){
   file%>%
   select(season, total_goal)%>%
@@ -13,22 +14,7 @@ avg_ita <- create_avg_file(ita_file)
 avg_esp <- create_avg_file(esp_file)
 
 
-##not useful that much)######################################
-ggplot(data = avg_epl,aes(x=season, y=Mean, group=1)) +
-  stat_smooth(se = F)+ theme(axis.text.x = element_text(angle = 90, hjust = 1))+
-  scale_y_continuous(limits = c(1.8, 3))
 
-
-ggplot(data = avg_bun,aes(x=season, y=Mean, group=1)) +
-  stat_smooth(se = F)+ theme(axis.text.x = element_text(angle = 90, hjust = 1))+
-  scale_y_continuous(limits = c(1.8, 3))
-
-ggplot(data = avg_esp,aes(x=season, y=Mean, group=1)) +
-  stat_smooth(se = F)+ theme(axis.text.x = element_text(angle = 90, hjust = 1))+
-  scale_y_continuous(limits = c(1.8, 3))
-
-
-################now we go
 
 avg_epl$league <- "English Premier League"
 avg_bun$league <- "German Bundesliga"
@@ -54,7 +40,7 @@ epl_file%>%
   group_by(season)%>%
   summarize(Mean_goals = mean(FTAG))
 
-
+#Analysing for the top teams across Europe
 top_team <- function(team,color){
   home_goals <- avg_file%>%
     select(season, HomeTeam,FTHG)%>%
@@ -111,10 +97,6 @@ ggplot(data = rbind(manutd,mancity,barca,madrid,munich,juventus),aes(x=season, y
 
 
 
-
-cols <- c("red","blue")
-
-
 ggplot()+
   stat_smooth(data = mancity, aes(x=season, y=Mean_goals, group = team,color = team),se=F,size = 1.2)+
   stat_smooth(data = manutd, aes(x=season, y=Mean_goals, group = team,color = team),se=F,size = 1.2)+
@@ -127,36 +109,3 @@ ggplot()+
 
 
 
-
-library(reshape2)
-scale_fill_manual(values=c("red1",
-                           "skyblue",
-                           "red3",
-                           "red4",
-                           "royalblue",
-                           
-                           "black",
-                           "firebrick1",
-                           "purple4",
-                           
-                           "mediumpurple2",
-                           "gray53",
-                           "darkred",
-                           
-                           "brown",
-                           "yellow")
-                  , 
-                  name="Experimental\nCondition",
-                  labels=c("manutd",
-                           "mancity",
-                           "liverpool", 
-                           "arsenal",
-                           "chelsea",
-                           "juventus",
-                           "Ac_milan",
-                           "inter",
-                           "barca",
-                           "madrid",
-                           "atletico",
-                           "munich",
-                           "dortmund"))
